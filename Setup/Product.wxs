@@ -828,13 +828,17 @@
       <Component Id="puttygen.exe" Guid="*">
         <File Source="..\Bin\puttygen.exe" />
       </Component>
-      <Component Id="gitssh_openssh.reg" Guid="5f730698-ac38-4e63-ad5d-505b21d1fa22">
-        <Condition>SSHCLIENT="OpenSSH"</Condition>
+      <Component Id="gitssh_openssh.reg" Guid="5f730698-ac38-4e63-ad5d-505b21d1fa22" Permanent="yes">
+        <Condition><![CDATA[NOT Upgrading AND SSHCLIENT="OpenSSH"]]></Condition>
         <RegistryValue Name="gitssh" Value="" Root="HKCU" Key="$(var.AppRegKey)" Type="string" />
       </Component>
-      <Component Id="gitssh_putty.reg" Guid="2cb64776-8035-413e-9266-4ad9e5ecbad3">
-        <Condition>SSHCLIENT="PuTTY"</Condition>
+      <Component Id="gitssh_putty.reg" Guid="2cb64776-8035-413e-9266-4ad9e5ecbad3" Permanent="yes">
+        <Condition><![CDATA[NOT Upgrading AND SSHCLIENT="PuTTY"]]></Condition>
         <RegistryValue Name="gitssh" Value="[INSTALLDIR]PuTTY\plink.exe" Root="HKCU" Key="$(var.AppRegKey)" Type="string" />
+      </Component>
+      <Component Id="gitssh_current.reg" Guid="44F8A1D4-B107-457B-A599-58AB346986E1" Permanent="yes">
+        <Condition><![CDATA[Upgrading]]></Condition>
+        <RegistryValue Name="gitssh" Value="[CURRENT_SSHCLIENT]" Root="HKCU" Key="$(var.AppRegKey)" Type="string" />
       </Component>
       <Component Id="plink.reg" Guid="*">
         <RegistryValue Name="plink" Value="[INSTALLDIR]PuTTY\plink.exe" Root="HKCU" Key="$(var.AppRegKey)" Type="string" />
@@ -1502,6 +1506,7 @@
       <ComponentRef Id="InstallDir.reg" />
       <ComponentRef Id="gitssh_openssh.reg" />
       <ComponentRef Id="gitssh_putty.reg" />
+      <ComponentRef Id="gitssh_current.reg" />
       <ComponentRef Id="plink.exe" />
       <ComponentRef Id="plink.reg" />
       <ComponentRef Id="pageant.exe" />
