@@ -11,11 +11,7 @@
     </Condition>
 
     <!-- 
-      Read the currently cofigured value.
-      If the key is missing or the value is unset, assume OpenSSH.
-      If the value is set - assume PuTTY, even though a custom tool may have been set.
-      Our telemetry (however limited) shows only a small number of users using custom
-      SSH tools, the effort to cater for those well exceeds the gain.
+      Read the currently configured value.
      -->
     <Property Id="CURRENT_SSHCLIENT" Secure="yes">
       <RegistrySearch Id="CurrentSshClient"
@@ -27,6 +23,7 @@
 
     <!--
       Use OpenSSH by default. If we read a value from the registry - assume PuTTY.
+      These values are used only if the app is installed for the first time
      -->
     <Property Id="SSHCLIENT" Value="OpenSSH" Secure="yes" />
     <SetProperty Action="SetSSHCLIENT0" Id="SSHCLIENT" After="CostInitialize" Value="PuTTY"><![CDATA[CURRENT_SSHCLIENT<>""]]></SetProperty>
